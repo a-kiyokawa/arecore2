@@ -1,0 +1,127 @@
+version: "3"
+
+services:
+# LOCALSTACK
+# AWSCLI
+# DOCKER
+  arecore2_db:
+    image: mysql:8.0
+    container_name: arecore2_db
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./logs:/var/log/mysql
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - TZ=Asia/Tokyo
+    networks:
+      arecore2_app_net:
+    ports:
+      - "${DB_HOST_PORT}:3306"
+    restart: always
+    tty: true
+
+  arecore2_redis:
+    image: redis:alpine
+    container_name: arecore2_redis
+    networks:
+      arecore2_app_net:
+    ports:
+      - "${REDIS_HOST_PORT}:6379"
+    volumes:
+      - "./data/redis:/data"
+    restart: always
+    tty: true
+
+  arecore2_localstack:
+    image: localstack/localstack
+    container_name: arecore2_localstack
+    ports:
+      - "${LOCALSTACK_HOST_PORT}:4566"
+    environment:
+      - DEFAULT_REGION=ap-northeast-1
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./data/localstack:/tmp/localstack/
+    networks:
+      arecore2_app_net:
+    tty: true
+
+  arecore2_awscli:
+    image: xueshanf/awscli
+    container_name: arecore2_awscli
+    environment:
+      - AWS_DEFAULT_REGION=ap-northeast-1
+      - AWS_DEFAULT_OUTPUT=json
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+    tty: true
+    volumes:
+      - ./data/awscli:/work
+    depends_on:
+      - arecore2_localstack
+    networks:
+      arecore2_app_net:
+    entrypoint: aws --endpoint-url=http://arecore2_localstack:${LOCALSTACK_HOST_PORT} s3 mb s3://${S3_BACKET_NAME}
+
+  arecore2_web:
+    build: 
+      context: ./config/php
+      args:
+        APP_DIR: ${APP_DIR}
+    container_name: arecore2_web
+    tty: true
+    networks:
+      arecore2_app_net:
+    depends_on:
+      - arecore2_db
+    volumes:
+      - ./source:${APP_DIR}
+    restart: always
+    privileged: true
+
+  arecore2_nginx:
+    image: nginx:1.20.1
+    container_name: arecore2_nginx
+    tty: true
+    ports:
+      - "${WEB_HOST_PORT}:80"
+      - "${WEB_HOST_SSL_PORT}:443"
+    volumes:
+      - ./config/nginx/templates:/etc/nginx/templates
+      - ./config/nginx/certs:/etc/nginx/certs
+      - ./source:${APP_DIR}
+    restart: always
+    depends_on:
+      - arecore2_web
+    networks:
+      arecore2_app_net:
+        aliases:
+          - arecore2-app
+    environment:
+      - APP_DIR=${APP_DIR}
+
+  arecore2_mail:
+    image: mailhog/mailhog
+    container_name: arecore2_mail
+    ports:
+      - '8025:8025'
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    networks:
+      arecore2_app_net:
+    volumes:
+       - maildir:/tmp
+
+volumes:
+  maildir: {}
+
+networks:
+  arecore2_app_net:
+    ipam:
+      driver: default

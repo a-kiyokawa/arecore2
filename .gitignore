@@ -1,0 +1,17 @@
+.env
+app/**
+efs/**
+.idea
+.vscode/*.json
+*.iml
+/logs/*
+!/logs/.gitkeep
+/data/awscli/*
+!/data/awscli/.gitkeep
+/data/localstack/*
+!/data/localstack/.gitkeep
+/data/mysql/*
+!/data/mysql/.gitkeep
+/data/redis/*
+!/data/redis/.gitkeep
+source/config/testScreen.php

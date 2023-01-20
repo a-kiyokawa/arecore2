@@ -1,0 +1,26 @@
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name arecore2-app;
+    ssl_certificate /etc/nginx/certs/server.crt;
+    ssl_certificate_key /etc/nginx/certs/server.key;
+
+    root  ${APP_DIR}/public;
+    index index.php index.html;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location ~ [^/]\.php(/|$) {
+        fastcgi_pass arecore2_web:9000;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_connect_timeout 300;
+        fastcgi_read_timeout 300;
+        include fastcgi_params;
+    }
+}
