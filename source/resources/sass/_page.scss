@@ -1,0 +1,131 @@
+// ページ用css
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints); 
+        @each $key, $value in $sites {
+            .text#{$infix}-#{$key} {
+                color: $value;
+            }
+            .bg#{$infix}-#{$key} {
+                background: $value;
+            }
+            .bg#{$infix}-#{$key}-0 {
+                background: rgba($color:  $value, $alpha: .05);
+            }
+            .border#{$infix}-#{$key} {
+                border:1px solid $value;
+            }
+        }
+    }
+}
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints); 
+        @for $i from 1 through 100 {
+            .w#{$infix}-#{$i} {
+                max-width: percentage($i/100);
+                flex: 0 0 percentage($i/100);
+            }
+        }
+    }
+}
+// 追加クラス
+.min{
+    font-size: $site-min;
+}
+.biggest{
+    font-size: $site-biggest;
+}
+.big{
+    font-size: $site-big;
+}
+.text-underline{
+    text-decoration: underline;
+}
+.text-line-through{
+    text-decoration: line-through;
+}
+.hide{
+    display: none;
+}
+.indent{
+    padding-left: 1em;
+    text-indent: -1em;
+}
+html{
+    font-size: 16px;
+    @include media-breakpoint-up(lg) {
+        font-size: 18px;
+    }
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    transition: background-color 5000s ease-in-out 0s !important;
+    -webkit-box-shadow: 0 0 0 60px #fff inset !important;
+    background-color: #fff !important;
+    background-clip: content-box !important;
+}
+select {
+    -webkit-appearance: none;
+    appearance: none; /* デフォルトのスタイルを無効 */
+    position: relative;
+    text-rendering: auto !important;
+}
+select::-ms-expand {
+    display: none; /* デフォルトのスタイルを無効(IE用) */
+}
+.select::before {
+    border-top: .35rem solid $site-text2;
+    border-left: .4rem solid transparent;
+    border-right: .4rem solid transparent;
+    content: "";
+    position: absolute;
+    right: .5rem;
+    top: 1.5rem;
+    width: 0;
+    z-index: 1;
+}
+body{
+    /* フォントサイズの正確に */
+    -webkit-text-size-adjust: 100%;
+    /* 文字をシャープに */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* カーニングとリガチャ（合字）を調整 */
+    text-rendering: optimizeLegibility;
+    word-break: break-all;
+    #wrap{
+        /* start--ヘッダー */
+        max-width: 100%;
+        overflow: hidden;
+        header{
+            h1{
+                line-height: 2;
+                color: white;
+            }
+            nav{
+                box-shadow: $shadow-under;
+            }
+        }
+        /* end--ヘッダー */
+        #main{
+        }
+        footer{
+            h2{
+                font-weight: 600;
+                color:white;
+                font-size: $site-small;
+                line-height: 2.5;
+            }
+        }
+        #copyright{
+            background: rgba($color:  $site-sub, $alpha: .1);
+            text-align: center;
+            color:$site-text2;
+            font-size: .6875rem;
+        }
+    }
+}

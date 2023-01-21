@@ -1,0 +1,52 @@
+
+// キーカラー
+$site-key:#008EED;
+// サブカラー
+$site-sub:#87C5EF;
+// サブカラー2
+$site-sub2:#F2F4F5;
+// テキストカラー
+$site-text:#2F2F2F;
+// テキストカラー2
+$site-text2:#707070;
+// テキストカラー3
+$site-text3:#BAB7B7;
+// 背景色
+$site-bg:#F7F7F2;
+// 必須未入力フォーム背景色
+$site-required:#F7F1CF;
+// 不活性フォーム背景色
+$site-disabled:#f0f0f0;
+// フォームOK
+$site-ok:#69E972;
+// フォームNG
+$site-ng:#FF2700;
+// 赤カラー
+$site-red:#CE1E43;
+// リンクカラー
+$site-link:#485EDB;
+// プレースホルダー色
+$site-placeholder:#BAB7B7;
+// 白
+$site-white:#FFFFFF;
+
+$sites:(
+site-key: $site-key,
+site-sub: $site-sub,
+site-sub2: $site-sub2,
+site-text: $site-text,
+site-text2: $site-text2,
+site-text3: $site-text3,
+site-bg: $site-bg,
+site-required: $site-required,
+site-disabled: $site-disabled,
+site-ok: $site-ok,
+site-ng: $site-ng,
+site-red: $site-red,
+site-white: $site-white,
+)!default;
+
+$theme-colors: (
+  "primary": $site-key,
+  "light": rgba($site-ng,.1)
+);
