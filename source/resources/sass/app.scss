@@ -1,8 +1,25 @@
+// ライブラリ読み込み用のcss　得編集不可
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// @import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// カラー定義用用のsass
+@import "color1";
+
+// カラー定義用用のsass
+@import "fontsize";
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Font Awesome 現段階で必要なし
+// @import '~@fortawesome/fontawesome-free/scss/fontawesome';
+// @import '~@fortawesome/fontawesome-free/scss/regular';
+// @import '~@fortawesome/fontawesome-free/scss/solid';
+// @import '~@fortawesome/fontawesome-free/scss/brands';
+
+
+// カスタマイズ用のcss
+@import "page";

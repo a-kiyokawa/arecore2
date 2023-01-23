@@ -23,6 +23,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('index');
+    }
+
+    public function home()
+    {
+        $data = [
+                'msg' => 'This is vue.js text,',
+        ];
+        return view('home', $data);
     }
 }
