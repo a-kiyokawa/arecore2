@@ -31,9 +31,8 @@ wimpty docker exec -i -t arecore2_web bash
 ##### 5.2. .envファイルを作成する
 cp .env.example .env
 
-##### 5.3. composer install & npm install
+##### 5.3. composer install 
 composer install
-npm install
 
 ##### 5.3. Laravelのアプリケーションキーを設定
 php artisan key:generate
@@ -47,6 +46,12 @@ php artisan config:clear
 
 ##### 5.7. マイグレーションの実施
 php artisan migrate --seed
+
+##### 5.8. npm install
+npm install
+
+##### 5.9. npm run build
+npm run build
 
 ## 6. 稼働確認
 以下アドレスへアクセスし、正常にウェブサイトが立ち上がることを確認する  
