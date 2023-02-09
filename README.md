@@ -31,8 +31,9 @@ wimpty docker exec -i -t arecore2_web bash
 ##### 5.2. .envファイルを作成する
 cp .env.example .env
 
-##### 5.3. composer install
+##### 5.3. composer install & npm install
 composer install
+npm install
 
 ##### 5.3. Laravelのアプリケーションキーを設定
 php artisan key:generate
